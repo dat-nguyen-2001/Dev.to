@@ -5,4 +5,5 @@ export declare class LikesController {
     private readonly likesService;
     constructor(likesService: LikesService);
     createLike(req: Request, createLikeDto: CreateLikeDto): Promise<void>;
+    getLikedArticles(req: Request): Promise<number[]>;
 }

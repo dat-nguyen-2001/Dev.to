@@ -24,6 +24,9 @@ let LikesController = class LikesController {
         const { articleId } = createLikeDto;
         return await this.likesService.createLike(req, articleId);
     }
+    async getLikedArticles(req) {
+        return await this.likesService.getLikedArticles(req);
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -33,6 +36,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, likes_dto_1.CreateLikeDto]),
     __metadata("design:returntype", Promise)
 ], LikesController.prototype, "createLike", null);
+__decorate([
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], LikesController.prototype, "getLikedArticles", null);
 LikesController = __decorate([
     (0, common_1.Controller)('likes'),
     __metadata("design:paramtypes", [likes_service_1.LikesService])

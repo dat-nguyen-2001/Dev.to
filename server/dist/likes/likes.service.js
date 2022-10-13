@@ -17,7 +17,7 @@ let LikesService = class LikesService {
     constructor(jwtService) {
         this.jwtService = jwtService;
     }
-    async createLike(req, articleId) {
+    async extractIdFromReq(req) {
         const authorizationHeader = req.headers['authorization'];
         const token = authorizationHeader.split(' ')[1];
         if (!token) {
@@ -28,10 +28,20 @@ let LikesService = class LikesService {
         const email = data.email;
         const user = await typeorm_1.User.findOne({ where: { email } });
         const userId = user.id;
+        return userId;
+    }
+    async createLike(req, articleId) {
+        const userId = await this.extractIdFromReq(req);
         const newLike = new typeorm_1.Like();
         newLike.articleId = Number(articleId);
         newLike.userId = userId;
         await newLike.save();
+    }
+    async getLikedArticles(req) {
+        const userId = await this.extractIdFromReq(req);
+        const likes = await typeorm_1.Like.find({ where: { userId } });
+        const likedArticleIds = likes.map(like => like.articleId);
+        return likedArticleIds;
     }
 };
 LikesService = __decorate([
