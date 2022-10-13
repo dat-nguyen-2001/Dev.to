@@ -1,0 +1,5 @@
+
+
+const getArticlesAPI = async function() {
+    
+}

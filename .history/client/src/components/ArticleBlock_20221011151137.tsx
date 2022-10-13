@@ -1,0 +1,84 @@
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+
+import articlesApi from '../api/articles.api';
+
+import { useState } from 'react';
+import { usernameState } from '../atoms/usernameAtom';
+import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+
+const { calMinuteRead, saveArticle } = articlesApi
+const ArticleBlock = ({ article }: any) => {
+    const tags = article.tags.split(',');
+
+    // Check if the article is saved by the current user
+    const listed_usernames = article.listed_users.map((user: any) => user.username);
+    const curUser = useRecoilValue(usernameState)
+    const [isSaved, setIsSaved] = useState<Boolean>(listed_usernames.includes(curUser));
+    const handleSaveArticle = async () => {
+        // If user is not logged in, redirect to the log in page
+        const navigate = useNavigate()
+        if(!curUser) {
+            navigate('/enter')
+        }
+
+        setIsSaved((prevState) => !prevState)
+        const articleId = Number(article.id);
+        await saveArticle(articleId)
+    }
+
+    // calculate the minute read of an article
+    const minuteRead = calMinuteRead(article.content)
+
+    return (
+        <div className="flex flex-col space-y-2 bg-white rounded-md mx-auto border-[#d3d3d3] border-[.2px] pb-8">
+            {article.coverImage !== "" && <img src={article.coverImage} className='rounded-t-md w-auto md:h-[300px]' />}
+            <a href={`/${article.user.username}`} className='flex items-center space-x-1 cursor-pointer px-3 py-1'>
+                <div className='w-8 h-8 rounded-full cursor-pointer'>
+                    <img src={article.user.profile_pic ? article.user.profile_pic : 'https://www.transparentpng.com/thumb/user/gray-user-profile-icon-png-fP8Q1P.png'} className='rounded-full' />
+                </div>
+                <div className='font-semibold'><i>@{article.user.username}</i></div>
+            </a>
+            <a href={`/${article.user.username}/${article.title}`}>
+                <div className='px-4 text-[1.3em] lg:text-2xl font-bold hover:text-blue-700 cursor-pointer md:pl-12'>{article.title}</div>
+            </a>
+            <div className='px-3 flex space-x-2 flex-wrap text-[.9rem] md:pl-12'>
+                {tags.map((tag: string) => (
+                    <a href={`./?tag=${tag}`} className='hover:bg-[#e5e5e5] border-[white] border-[.2px] hover:border-[#d3d3d3] rounded-md cursor-pointer px-1 py-1'>#{tag}</a>
+                ))}
+            </div>
+            <div className='px-3 flex space-between items-center md:pl-12'>
+                <div className='flex space-x-5 items-center'>
+                    <div className='flex space-x-2'>
+                        <FavoriteBorderIcon className='cursor-pointer mt-1' />
+                        <p className='lg:hover:bg-[#f5f5f5] px-2 rounded cursor-pointer py-1'>{article.reactions}
+                            <span className='hidden lg:inline'> Reactions</span></p>
+                    </div>
+                    <div className='flex space-x-2'>
+                        <div className='w-5 h-5'>
+                            <ChatBubbleOutlineIcon className='cursor-pointer mt-1' />
+                        </div>
+                        <p className='lg:hover:bg-[#f5f5f5] px-2 rounded cursor-pointer py-1'>{article.comments.length}<span className='hidden lg:inline'> Comments</span></p>
+                    </div>
+                </div>
+                <div className='flex space-x-3 items-center'>
+                    <div>{minuteRead} min read</div>
+                    <div>
+                        {isSaved ?
+                            <span className='articleIcon text-[#4f46e5]' onClick={handleSaveArticle}>
+                                <BookmarkIcon />
+                            </span> :
+                            <span className='articleIcon hover:text-[#4f46e5]' onClick={handleSaveArticle}>
+                                <BookmarkBorderIcon />
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+export default ArticleBlock 
