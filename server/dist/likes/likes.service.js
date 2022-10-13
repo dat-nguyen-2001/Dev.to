@@ -27,14 +27,24 @@ let LikesService = class LikesService {
         const data = await this.jwtService.verify(token, { secret: process.env.ACCESS_TOKEN_SECRET });
         const email = data.email;
         const user = await typeorm_1.User.findOne({ where: { email } });
-        const userId = user.id;
+        const userId = Number(user.id);
         return userId;
     }
-    async createLike(req, articleId) {
+    async likeArticle(req, articleId) {
         const userId = await this.extractIdFromReq(req);
+        const article = await typeorm_1.Article.findOne({ where: { id: articleId } });
+        const alreadyLiked = await typeorm_1.Like.findOne({ where: { userId, articleId } });
+        if (alreadyLiked !== null) {
+            await typeorm_1.Like.remove(alreadyLiked);
+            article.reactions -= 1;
+            await article.save();
+            return;
+        }
         const newLike = new typeorm_1.Like();
         newLike.articleId = Number(articleId);
         newLike.userId = userId;
+        article.reactions += 1;
+        await article.save();
         await newLike.save();
     }
     async getLikedArticles(req) {

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 
 import { useParams } from 'react-router-dom'
 import Layout from '../components/Layout'
+import { useNavigate } from 'react-router-dom';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
@@ -13,10 +14,10 @@ import { useRecoilValue } from 'recoil';
 import { usernameState } from '../atoms/usernameAtom';
 
 const { getArticlesByUser, saveArticle } = articlesApi
-const {getLikedArticles} = usersApi
-
+const {getLikedArticles, likeArticle} = usersApi
 const ArticlePage = () => {
-
+    const curUsername = useRecoilValue(usernameState)
+    const navigate = useNavigate();
     // STATES
     // username from the params, aka username of the article's author
     const { username, title } = useParams();
@@ -33,7 +34,9 @@ const ArticlePage = () => {
 
     // Render the main article and other articles from the same author / user
     useEffect(() => {
-        getLikedArticles().then(data => setLikedArticles(data))
+        if(curUsername) {
+            getLikedArticles().then(data => setLikedArticles(data))
+        }
 
         username !== undefined && getArticlesByUser(username).then(data => {
             // Set the main article
@@ -49,16 +52,34 @@ const ArticlePage = () => {
             // Set listed_usernames, aka who has added the article to their reading_list
             const listed_usernames = filteredArticle[0].listed_users.map((user: any) => user.username);
             setIsSaved(listed_usernames.includes(signedInUsername))
+        }).then(() => {
+            if(article.id) {
+                setIsLiked(likedArticles.includes(Number(article.id)))
+            }
         })
-    }, [])
+    }, [article]) //trigger again when article finished loaded, just we could get the article.id
 
     // Handle saving article to the reading list
     // First, check if the article is already in the reading list
     const [isSaved, setIsSaved] = useState<Boolean>(false)
     const handleSaveArticle = async () => {
+        if(!curUsername) {
+            return navigate('/enter')
+        }
         setIsSaved((prevState) => !prevState)
         const articleId = Number(article.id);
         await saveArticle(articleId)
+    }
+
+    //Like Article Handler
+    const [isLiked, setIsLiked] = useState<Boolean>(false)
+    const handleLikeArticle = async() => {
+        if(!curUsername) {
+            return navigate('/enter')
+        }
+        setIsLiked(prevState => !prevState);
+        const articleId = article ? Number(article.id) : 0
+        await likeArticle(articleId)
     }
 
     return (
@@ -68,13 +89,13 @@ const ArticlePage = () => {
                     {/* // Left side */}
                     <div className='hidden md:flex flex-col h-full  sticky top-[100px] z-[1] space-y-8 px-10 pt-[50px] lg:px-0 lg:pr-10'>
                         <div className='flex flex-col items-center '>
-                            {likedArticles.includes(Number(article.id)) ? 
+                            {isLiked ? 
                             <span className="articleIcon bg-[pink] text-[red]">
-                                <FavoriteBorderIcon />
+                                <FavoriteBorderIcon onClick={handleLikeArticle}/>
                             </span> 
                             :
                             <span className='articleIcon hover:bg-[pink] hover:text-[red]'>
-                                <FavoriteBorderIcon />
+                                <FavoriteBorderIcon onClick={handleLikeArticle}/>
                             </span> 
                             }
                             <span>{article.reactions}</span>
