@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { Article } from 'src/typeorm';
-import { CreateArticleDto } from './articles.dto';
 import { ArticlesService } from './articles.service';
+import { CreateArticleDto } from 'src/dtos/create-article.dto';
 export declare class ArticlesController {
     private readonly articlesService;
     constructor(articlesService: ArticlesService);

@@ -30,13 +30,6 @@ __decorate([
     __metadata("design:type", String)
 ], Comment.prototype, "content", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        nullable: false,
-        default: 0
-    }),
-    __metadata("design:type", Number)
-], Comment.prototype, "reactions", void 0);
-__decorate([
     (0, typeorm_1.ManyToOne)(() => article_entity_1.Article, article => article.comments),
     __metadata("design:type", article_entity_1.Article)
 ], Comment.prototype, "article", void 0);

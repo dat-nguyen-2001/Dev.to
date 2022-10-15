@@ -13,6 +13,7 @@ const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const articles_module_1 = require("./articles/articles.module");
 const likes_module_1 = require("./likes/likes.module");
+const comments_module_1 = require("./comments/comments.module");
 const typeorm_2 = require("./typeorm");
 let AppModule = class AppModule {
 };
@@ -37,6 +38,7 @@ AppModule = __decorate([
             }),
             articles_module_1.ArticlesModule,
             likes_module_1.LikesModule,
+            comments_module_1.CommentsModule,
         ],
         controllers: [],
         providers: []
