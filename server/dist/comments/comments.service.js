@@ -36,6 +36,7 @@ let CommentsService = class CommentsService {
         const user = await typeorm_1.User.findOne({ where: { id: userId } });
         const article = await typeorm_1.Article.findOne({ where: { id: articleId } });
         const newComment = new typeorm_1.Comment();
+        newComment.created_at = new Date();
         newComment.content = content;
         newComment.user = user;
         newComment.article = article;

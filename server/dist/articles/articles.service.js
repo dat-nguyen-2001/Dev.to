@@ -63,7 +63,8 @@ let ArticlesService = class ArticlesService {
             },
             relations: {
                 user: true,
-                listed_users: true
+                listed_users: true,
+                comments: { user: true }
             }
         });
         return articles;

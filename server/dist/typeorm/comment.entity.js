@@ -23,6 +23,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Comment.prototype, "id", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'timestamptz' }),
+    __metadata("design:type", Date)
+], Comment.prototype, "created_at", void 0);
+__decorate([
     (0, typeorm_1.Column)({
         nullable: false,
         default: '',
