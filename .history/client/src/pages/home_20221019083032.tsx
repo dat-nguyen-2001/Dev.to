@@ -10,8 +10,6 @@ import usersApi from '../api/users.api'
 import { useRecoilValue } from 'recoil';
 import { usernameState } from '../atoms/usernameAtom';
 
-import Spinner from '../components/Spinner';
-
 
 const {getUserInfo} = usersApi
 const {getArticles, getArticlesByTag, getArticlesBySearch} = articlesApi;
@@ -52,7 +50,7 @@ const HomePage = () => {
 
   //Get all the articles liked by current user
   useEffect(() => {
-
+    
     if(tag) {
       getArticlesByTag(tag).then(data => {
         setArticles(sortByLatest ? sortLatest(data) : sortPopularity(data))
@@ -67,27 +65,6 @@ const HomePage = () => {
       })
     }
   }, [sortByLatest])
-
-  //Handle infinite scrolling
-  const [page, setPage] = useState<number>(1)
-  const [loading, setLoading] = useState<boolean>(false)
-  const handleScroll = function() {
-    setLoading(true)
-    const scrollHeight = document.documentElement.scrollHeight
-    const scrollTop = document.documentElement.scrollTop
-    const windowHeight = window.innerHeight
-    if(windowHeight + scrollTop + 150 >= scrollHeight) {
-      setPage(prev => prev+1);
-      setLoading(false)
-    }
-  }
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-  
 
   const [readingListNumber, setReadingListNumber] = useState<number>(0)
   useEffect(() => {
@@ -106,14 +83,13 @@ const HomePage = () => {
             <div className={`cursor-pointer hover:text-blue-700 px-2 py-2 mb-2 sm:hover:bg-white rounded-md ${!sortByLatest ? 'font-bold': ''}`} onClick={handleSortByPopularity}>Top</div>
           </div>
           <div className='flex flex-col space-y-2'>
-            {articles.slice(0, 10 * page).map(article => {
+            {articles.map(article => {
               return (
                 <div key={article.id}>
                   <ArticleBlock article={article}/>
                 </div>
               )
             })}
-            {loading &&<div className='pt-10 w-[10%] mx-auto'> <Spinner /> </div>}
           </div>
         </div>
         <div className='hidden lg:inline col-span-3'>

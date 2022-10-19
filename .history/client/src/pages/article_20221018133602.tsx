@@ -131,7 +131,7 @@ const ArticlePage = () => {
         window.location.reload()
     };
     const commentHandler = function () {
-        if (!sessionStorage.getItem('username')) {
+        if(!sessionStorage.get) {
             return navigate('/enter')
         }
     }

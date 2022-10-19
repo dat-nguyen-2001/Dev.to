@@ -10,7 +10,6 @@ import usersApi from '../api/users.api'
 import { useRecoilValue } from 'recoil';
 import { usernameState } from '../atoms/usernameAtom';
 
-import Spinner from '../components/Spinner';
 
 
 const {getUserInfo} = usersApi
@@ -76,7 +75,7 @@ const HomePage = () => {
     const scrollHeight = document.documentElement.scrollHeight
     const scrollTop = document.documentElement.scrollTop
     const windowHeight = window.innerHeight
-    if(windowHeight + scrollTop + 150 >= scrollHeight) {
+    if(windowHeight + scrollTop + 1 >= scrollHeight) {
       setPage(prev => prev+1);
       setLoading(false)
     }
@@ -113,7 +112,7 @@ const HomePage = () => {
                 </div>
               )
             })}
-            {loading &&<div className='pt-10 w-[10%] mx-auto'> <Spinner /> </div>}
+            
           </div>
         </div>
         <div className='hidden lg:inline col-span-3'>

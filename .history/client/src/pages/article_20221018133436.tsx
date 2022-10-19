@@ -130,11 +130,6 @@ const ArticlePage = () => {
         await commentOnArticle(content, Number(article.id))
         window.location.reload()
     };
-    const commentHandler = function () {
-        if (!sessionStorage.getItem('username')) {
-            return navigate('/enter')
-        }
-    }
     return (
         <Layout title={title}>
             {article !== undefined &&

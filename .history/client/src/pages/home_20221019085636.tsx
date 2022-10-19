@@ -88,7 +88,7 @@ const HomePage = () => {
     }
   }, [])
   
-
+  //Display number of articles in the reading list
   const [readingListNumber, setReadingListNumber] = useState<number>(0)
   useEffect(() => {
     getUserInfo(curUsername).then(data => setReadingListNumber(data.data[0].reading_list.length))

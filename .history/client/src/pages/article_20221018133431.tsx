@@ -130,11 +130,6 @@ const ArticlePage = () => {
         await commentOnArticle(content, Number(article.id))
         window.location.reload()
     };
-    const commentHandler = function () {
-        if (!sessionStorage.getItem('username')) {
-            return navigate('/enter')
-        }
-    }
     return (
         <Layout title={title}>
             {article !== undefined &&
@@ -201,7 +196,7 @@ const ArticlePage = () => {
                                     <img src={curUser !== null && curUser.profile_pic ? curUser.profile_pic : 'https://www.transparentpng.com/thumb/user/gray-user-profile-icon-png-fP8Q1P.png'} className='rounded-full' />
                                 </div>
                                 <form className='w-full flex flex-col space-y-2 items-left'>
-                                    <textarea {...register("content", { required: true })} onFocus={commentHandler} placeholder='Add to the discussion . . .' className='w-full h-[100px] px-3 pt-2 border-[#e5e5e5] border-[1px] rounded-md' />
+                                    <textarea {...register("content", { required: true })} onFocus={} placeholder='Add to the discussion . . .' className='w-full h-[100px] px-3 pt-2 border-[#e5e5e5] border-[1px] rounded-md' />
                                     <button onClick={handleSubmit(onSubmit)} className='commentSubmit w-[100px] py-2 cursor-pointer rounded-md bg-blue-600 hover:bg-blue-800 text-white front-semibold text-[1.2em]'>Submit</button>
                                 </form>
                             </div>

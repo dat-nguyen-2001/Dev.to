@@ -131,9 +131,7 @@ const ArticlePage = () => {
         window.location.reload()
     };
     const commentHandler = function () {
-        if (!sessionStorage.getItem('username')) {
-            return navigate('/enter')
-        }
+        if(sessionStorage.get('username'))
     }
     return (
         <Layout title={title}>

@@ -10,8 +10,6 @@ import usersApi from '../api/users.api'
 import { useRecoilValue } from 'recoil';
 import { usernameState } from '../atoms/usernameAtom';
 
-import Spinner from '../components/Spinner';
-
 
 const {getUserInfo} = usersApi
 const {getArticles, getArticlesByTag, getArticlesBySearch} = articlesApi;
@@ -70,25 +68,7 @@ const HomePage = () => {
 
   //Handle infinite scrolling
   const [page, setPage] = useState<number>(1)
-  const [loading, setLoading] = useState<boolean>(false)
-  const handleScroll = function() {
-    setLoading(true)
-    const scrollHeight = document.documentElement.scrollHeight
-    const scrollTop = document.documentElement.scrollTop
-    const windowHeight = window.innerHeight
-    if(windowHeight + scrollTop + 150 >= scrollHeight) {
-      setPage(prev => prev+1);
-      setLoading(false)
-    }
-  }
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
   
-
   const [readingListNumber, setReadingListNumber] = useState<number>(0)
   useEffect(() => {
     getUserInfo(curUsername).then(data => setReadingListNumber(data.data[0].reading_list.length))
@@ -113,7 +93,6 @@ const HomePage = () => {
                 </div>
               )
             })}
-            {loading &&<div className='pt-10 w-[10%] mx-auto'> <Spinner /> </div>}
           </div>
         </div>
         <div className='hidden lg:inline col-span-3'>

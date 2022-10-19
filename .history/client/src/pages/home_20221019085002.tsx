@@ -76,7 +76,7 @@ const HomePage = () => {
     const scrollHeight = document.documentElement.scrollHeight
     const scrollTop = document.documentElement.scrollTop
     const windowHeight = window.innerHeight
-    if(windowHeight + scrollTop + 150 >= scrollHeight) {
+    if(windowHeight + scrollTop + 1 >= scrollHeight) {
       setPage(prev => prev+1);
       setLoading(false)
     }
@@ -113,7 +113,7 @@ const HomePage = () => {
                 </div>
               )
             })}
-            {loading &&<div className='pt-10 w-[10%] mx-auto'> <Spinner /> </div>}
+            {loading &&<div className='w-[]'> <Spinner /> </div>}
           </div>
         </div>
         <div className='hidden lg:inline col-span-3'>

@@ -10,10 +10,8 @@ import usersApi from '../api/users.api'
 import { useRecoilValue } from 'recoil';
 import { usernameState } from '../atoms/usernameAtom';
 
-import Spinner from '../components/Spinner';
 
-
-const {getUserInfo} = usersApi
+const {getLikedArticles, getUserInfo} = usersApi
 const {getArticles, getArticlesByTag, getArticlesBySearch} = articlesApi;
 
 function useQuery() {
@@ -34,7 +32,7 @@ const HomePage = () => {
 
   // Handle sorting artic
   const [sortByLatest, setSortByLatest] = useState<Boolean>(true)
-
+  
   const sortLatest = (data: Array<any>) => {
     return data.sort(function(a: any,b: any){return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()})
   }
@@ -68,27 +66,6 @@ const HomePage = () => {
     }
   }, [sortByLatest])
 
-  //Handle infinite scrolling
-  const [page, setPage] = useState<number>(1)
-  const [loading, setLoading] = useState<boolean>(false)
-  const handleScroll = function() {
-    setLoading(true)
-    const scrollHeight = document.documentElement.scrollHeight
-    const scrollTop = document.documentElement.scrollTop
-    const windowHeight = window.innerHeight
-    if(windowHeight + scrollTop + 150 >= scrollHeight) {
-      setPage(prev => prev+1);
-      setLoading(false)
-    }
-  }
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-  
-
   const [readingListNumber, setReadingListNumber] = useState<number>(0)
   useEffect(() => {
     getUserInfo(curUsername).then(data => setReadingListNumber(data.data[0].reading_list.length))
@@ -106,14 +83,13 @@ const HomePage = () => {
             <div className={`cursor-pointer hover:text-blue-700 px-2 py-2 mb-2 sm:hover:bg-white rounded-md ${!sortByLatest ? 'font-bold': ''}`} onClick={handleSortByPopularity}>Top</div>
           </div>
           <div className='flex flex-col space-y-2'>
-            {articles.slice(0, 10 * page).map(article => {
+            {articles.map(article => {
               return (
                 <div key={article.id}>
                   <ArticleBlock article={article}/>
                 </div>
               )
             })}
-            {loading &&<div className='pt-10 w-[10%] mx-auto'> <Spinner /> </div>}
           </div>
         </div>
         <div className='hidden lg:inline col-span-3'>

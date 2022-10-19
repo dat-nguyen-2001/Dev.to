@@ -76,7 +76,7 @@ const HomePage = () => {
     const scrollHeight = document.documentElement.scrollHeight
     const scrollTop = document.documentElement.scrollTop
     const windowHeight = window.innerHeight
-    if(windowHeight + scrollTop + 150 >= scrollHeight) {
+    if(windowHeight + scrollTop + 210 >= scrollHeight) {
       setPage(prev => prev+1);
       setLoading(false)
     }
