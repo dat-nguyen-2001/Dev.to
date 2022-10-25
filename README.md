@@ -61,6 +61,8 @@ As this is a social networking site, registration is needed for users to experie
 
 ### Project Architecture
 
+![image](https://user-images.githubusercontent.com/94024020/197681014-898722a1-0183-4438-8887-53a1572b740f.png)
+
 - LIKE MODULE : Deals with the liking mechanisms.
 - COMMENT MODULE : Provides commenting feature.
 - ARTICLE MODULE : Handles user interactions with articles.
@@ -76,4 +78,7 @@ As the web is developed by only one developer (me),due to the limited time, know
 1. Allow users to follow other users
 2. Allow users to chat with the others.
 3. Allow users to get notifications about the articles/users they're following.
-and more.
+
+### Contact
+If you want to contact me you can reach me at datnguyenftu210@gmail.com.
+My linkedin : https://www.linkedin.com/in/dat-nguyen-van-77557321b/
