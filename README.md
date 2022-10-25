@@ -1,7 +1,7 @@
 ﻿# Dev.to social webapp
-![image](https://user-images.githubusercontent.com/94024020/197677794-6efea999-8944-4084-a9fd-0cadf44ab3ac.png)
+![devto](https://user-images.githubusercontent.com/94024020/197679626-24a4f4f2-cb92-4e74-8144-bfe9feeca1dc.png)
 
-If you want to check out my Front-end codebase, click [here](https://github.com/NguyenAnhVuong/Image-Lazer-Frontend)
+If you want to check out my Front-end codebase, click [here](https://github.com/dat-nguyen-2001/Dev.to-Client)
 
 ### Build With
 
