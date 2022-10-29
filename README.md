@@ -81,4 +81,4 @@ As the web is developed by only one developer (me),due to the limited time, know
 
 ### Contact
 If you want to contact me you can reach me at datnguyenftu210@gmail.com.
-My linkedin : https://www.linkedin.com/in/dat-nguyen-van-77557321b/
+My linkedin : https://www.linkedin.com/in/datnguyen210
